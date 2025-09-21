@@ -142,8 +142,8 @@ export const DualDial = ({ onEvaluationChange }: DualDialProps) => {
             
             {/* Define curved paths for inner ring text */}
             {innerCharacteristics.map((char, index) => {
-              const startAngle = (index * 90) - 25; // Adjust for better text positioning
-              const endAngle = startAngle + 50; // Shorter arc for better text fit
+              const startAngle = (index * 90) - 30; // Adjust for better text positioning
+              const endAngle = startAngle + 60; // Longer arc for better text fit
               const radius = 80; // Middle of the inner ring
               
               const startAngleRad = (startAngle * Math.PI) / 180;
