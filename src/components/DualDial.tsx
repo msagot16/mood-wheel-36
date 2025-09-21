@@ -293,36 +293,13 @@ export const DualDial = ({ onEvaluationChange }: DualDialProps) => {
             })}
           </g>
 
-          {/* Compass Arrow - Completely outside circles at top pointing upward */}
+          {/* Compass Arrow - Simple minimal design */}
           <g className="pointer-events-none">
-            {/* Arrow shadow */}
+            {/* Simple arrow pointing up */}
             <path
-              d="M 240 20 L 230 -5 L 240 0 L 250 -5 Z"
-              fill="hsl(0 0% 0% / 0.4)"
-              transform="translate(2, 2)"
-            />
-            {/* Arrow body */}
-            <path
-              d="M 240 20 L 230 -5 L 240 0 L 250 -5 Z"
-              fill="hsl(220 14% 96%)"
-              stroke="hsl(0 0% 0%)"
-              strokeWidth="3"
-            />
-            {/* Arrow tip pointing up */}
-            <path
-              d="M 240 0 L 235 -10 L 240 -20 L 245 -10 Z"
-              fill="hsl(0 84% 60%)"
-              stroke="hsl(0 0% 0%)"
-              strokeWidth="1"
-            />
-            {/* Arrow shaft */}
-            <rect
-              x="238"
-              y="-10"
-              width="4"
-              height="15"
-              fill="hsl(220 14% 96%)"
-              stroke="hsl(0 0% 0%)"
+              d="M 240 50 L 235 35 L 240 25 L 245 35 Z"
+              fill="hsl(var(--foreground))"
+              stroke="hsl(var(--border))"
               strokeWidth="1"
             />
           </g>
