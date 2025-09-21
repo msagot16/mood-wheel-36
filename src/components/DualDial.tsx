@@ -37,6 +37,15 @@ export const DualDial = ({ onEvaluationChange }: DualDialProps) => {
     }
   }, []);
 
+  const handleTouchStart = useCallback((e: React.TouchEvent, isOuter: boolean) => {
+    e.preventDefault();
+    if (isOuter) {
+      setIsDraggingOuter(true);
+    } else {
+      setIsDraggingInner(true);
+    }
+  }, []);
+
   const getCharacteristicAtArrow = useCallback((rotation: number, characteristics: typeof outerCharacteristics) => {
     // The arrow points to the top (270° position) 
     // When dial rotates by 'rotation' degrees, we need to find which characteristic is at 270°
@@ -84,6 +93,26 @@ export const DualDial = ({ onEvaluationChange }: DualDialProps) => {
     }
   }, [isDraggingOuter, isDraggingInner]);
 
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (!isDraggingOuter && !isDraggingInner) return;
+    
+    const rect = outerDialRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    
+    const touch = e.touches[0];
+    if (!touch) return;
+    
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const angle = Math.atan2(touch.clientY - centerY, touch.clientX - centerX) * (180 / Math.PI);
+    
+    if (isDraggingOuter) {
+      setOuterRotation(angle);
+    } else if (isDraggingInner) {
+      setInnerRotation(-angle); // Counter-clockwise
+    }
+  }, [isDraggingOuter, isDraggingInner]);
+
   // Update evaluation whenever rotation changes
   React.useEffect(() => {
     updateEvaluation();
@@ -99,17 +128,26 @@ export const DualDial = ({ onEvaluationChange }: DualDialProps) => {
     setIsDraggingInner(false);
   }, []);
 
-  // Add global mouse event listeners
+  const handleTouchEnd = useCallback(() => {
+    setIsDraggingOuter(false);
+    setIsDraggingInner(false);
+  }, []);
+
+  // Add global mouse and touch event listeners
   React.useEffect(() => {
     if (isDraggingOuter || isDraggingInner) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
       return () => {
         document.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseup", handleMouseUp);
+        document.removeEventListener("touchmove", handleTouchMove);
+        document.removeEventListener("touchend", handleTouchEnd);
       };
     }
-  }, [isDraggingOuter, isDraggingInner, handleMouseMove, handleMouseUp]);
+  }, [isDraggingOuter, isDraggingInner, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
   return (
     <div className="flex items-center justify-center p-16">
@@ -171,6 +209,7 @@ export const DualDial = ({ onEvaluationChange }: DualDialProps) => {
             style={{ transform: `rotate(${outerRotation}deg)`, transformOrigin: "240px 240px" }}
             className="dial-rotate cursor-pointer"
             onMouseDown={(e) => handleMouseDown(e, true)}
+            onTouchStart={(e) => handleTouchStart(e, true)}
           >
             {/* Outer ring segments */}
             {outerCharacteristics.map((char, index) => {
@@ -235,6 +274,7 @@ export const DualDial = ({ onEvaluationChange }: DualDialProps) => {
             style={{ transform: `rotate(${innerRotation}deg)`, transformOrigin: "240px 240px" }}
             className="dial-rotate cursor-pointer"
             onMouseDown={(e) => handleMouseDown(e, false)}
+            onTouchStart={(e) => handleTouchStart(e, false)}
           >
             {/* Inner ring segments */}
             {innerCharacteristics.map((char, index) => {
