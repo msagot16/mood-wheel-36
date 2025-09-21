@@ -40,23 +40,23 @@ export const EvaluationPage = () => {
   return (
     <div className="max-w-4xl mx-auto">
       {/* Hero Section */}
-      <div className="text-center mb-16">
-        <h1 className="text-5xl font-bold mb-6 luxurious-spacing">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4 luxurious-spacing">
           Space Evaluation
         </h1>
-        <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
           Evaluate spaces through dual dimensions of valence and arousal. 
           Rotate the dials to describe your cognitive state.
         </p>
       </div>
 
       {/* Dual Dial Interface */}
-      <div className="mb-12">
+      <div className="mb-6">
         <DualDial onEvaluationChange={handleEvaluationChange} />
       </div>
 
       {/* Current Evaluation Display */}
-      <div className="text-center mb-8">
+      <div className="text-center mb-6">
         <div className="inline-flex items-center space-x-4 bg-card rounded-full px-6 py-3 premium-shadow">
           <span className="text-sm text-muted-foreground">Current:</span>
           <span className="text-sm font-medium text-primary">

@@ -8,7 +8,7 @@ interface NavigationProps {
 
 export const Navigation = ({ activeTab, onTabChange }: NavigationProps) => {
   return (
-    <nav className="flex justify-center mb-12">
+    <nav className="flex justify-center mb-6">
       <div className="bg-card rounded-full p-2 premium-shadow">
         <div className="flex space-x-2">
           <Button

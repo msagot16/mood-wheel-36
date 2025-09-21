@@ -8,7 +8,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-6 py-12">
+      <div className="container mx-auto px-6 py-6">
         <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
         
         {activeTab === "evaluation" ? <EvaluationPage /> : <HistoryPage />}
